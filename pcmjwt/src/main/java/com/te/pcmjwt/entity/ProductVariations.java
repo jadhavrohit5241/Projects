@@ -1,6 +1,5 @@
 package com.te.pcmjwt.entity;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +18,9 @@ public class ProductVariations {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer productVariationId;
 
-	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "productVariationId")
-//	private List<ProductVariationOptions> produVariationOptions;
+	/**
+	 * @OneToMany(cascade = CascadeType.ALL) // @JoinColumn(name =
+	 *                    "productVariationId") private
+	 *                    List<ProductVariationOptions> produVariationOptions;
+	 */
 }

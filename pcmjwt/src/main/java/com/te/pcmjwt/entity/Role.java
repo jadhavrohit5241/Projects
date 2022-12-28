@@ -20,13 +20,13 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer roleId;
-	
+
 	@Column(nullable = false, unique = true)
 	private String roleName;
 
-//	@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-//	private List<User> list;
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_Id",nullable = false)
-
+	/**
+	 * @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL) // private
+	 *                      List<User> list; // @OneToOne(fetch = FetchType.LAZY)
+	 * @JoinColumn(name = "user_Id",nullable = false)
+	 **/
 }

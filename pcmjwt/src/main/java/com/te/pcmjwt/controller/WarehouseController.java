@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.te.pcmjwt.appResponse.AppResponse;
+import com.te.pcmjwt.appresponse.AppResponse;
 import com.te.pcmjwt.dto.FetchCategoryDto;
 import com.te.pcmjwt.dto.FetchOptionDto;
 import com.te.pcmjwt.dto.FetchProductDto;
@@ -22,7 +22,7 @@ import com.te.pcmjwt.entity.Categories;
 import com.te.pcmjwt.entity.Options;
 import com.te.pcmjwt.entity.Products;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
-import com.te.pcmjwt.service.serviceInterface.WarehouseServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.WarehouseServiceInterface;
 
 @RestController
 @RequestMapping(path = "/auth/warehouse")
@@ -46,11 +46,11 @@ public class WarehouseController {
 		List<Products> productList = warehouseServiceInterface.getAllProduct();
 		if (productList != null) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("operation successful").build(),
+					AppResponse.builder().error(false).status(200).msg("operation successful").build(),
 					HttpStatus.ACCEPTED);
 		} else {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
+					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 
 		}
 	}
@@ -71,7 +71,7 @@ public class WarehouseController {
 
 		if (warehouseServiceInterface.deleteProduct(fetchDto)) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
+					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 		}
 		throw new InvalidUserInput("invalid data entered ");
 	}
@@ -81,7 +81,7 @@ public class WarehouseController {
 
 		if (warehouseServiceInterface.deleteCategory(fetchCategoryDto)) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
+					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 		}
 		throw new InvalidUserInput("invalid data entered ");
 	}
@@ -101,10 +101,10 @@ public class WarehouseController {
 	private ResponseEntity<AppResponse> getAllCategories() {
 		List<Categories> AllCategoriesList = warehouseServiceInterface.getAllCategories();
 		if (AllCategoriesList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200)
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
 					.msg("operation successful").data(Arrays.asList(AllCategoriesList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200).build(),
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}
@@ -115,7 +115,7 @@ public class WarehouseController {
 
 		if (warehouseServiceInterface.deleteOption(fetchOptionDto)) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
+					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 		}
 		throw new InvalidUserInput("invalid data entered ");
 	}
@@ -135,10 +135,10 @@ public class WarehouseController {
 	private ResponseEntity<AppResponse> getAllOptions() {
 		List<Options> AllOptionList = warehouseServiceInterface.getAllOpstions();
 		if (AllOptionList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200)
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
 					.msg("operation successful").data(Arrays.asList(AllOptionList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200).build(),
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}

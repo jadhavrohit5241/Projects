@@ -1,4 +1,4 @@
-package com.te.pcmjwt.appResponse;
+package com.te.pcmjwt.appresponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Builder
 public class AppResponse {
 	private Boolean error;
-	private int Status;
+	private int status;
 	private String msg;
 	private List<Object> data;
 }

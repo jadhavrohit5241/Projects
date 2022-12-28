@@ -1,4 +1,4 @@
-package com.te.pcmjwt.service.serviceImplemetation;
+package com.te.pcmjwt.service.serviceimplemetation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import com.te.pcmjwt.exceptions.InvalidUserInput;
 import com.te.pcmjwt.repository.EmployeRepository;
 import com.te.pcmjwt.repository.RoleRepository;
 import com.te.pcmjwt.repository.UserRepository;
-import com.te.pcmjwt.service.serviceInterface.ServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
 
 @Service
 public class ServiceImplemetation implements ServiceInterface {
@@ -61,9 +61,9 @@ public class ServiceImplemetation implements ServiceInterface {
 	@Override
 	public Optional<List<GetAllEmployeeDto>> getAllEmployee() {
 		List<Employee> employees = employeRepository.findAll();
-		List<GetAllEmployeeDto> allEmployeeDtos = new ArrayList<GetAllEmployeeDto>();
+		List<GetAllEmployeeDto> allEmployeeDtos = new ArrayList<>();
 		employees.stream()
-				.forEach((i) -> allEmployeeDtos.add(GetAllEmployeeDto.builder().departments(i.getDepartment())
+				.forEach(i -> allEmployeeDtos.add(GetAllEmployeeDto.builder().departments(i.getDepartment())
 						.designation(i.getDesignation()).email(i.getEmail()).employeeId(i.getEmployeeId())
 						.employeeName(i.getEmployeeName()).build()));
 		return Optional.ofNullable(allEmployeeDtos);
@@ -79,7 +79,9 @@ public class ServiceImplemetation implements ServiceInterface {
 					.password((new BCryptPasswordEncoder().encode(user.getPassword()))).build();
 			userRepository.delete(user);
 			userRepository.save(newUser);
-//			user.getRole().setRoleId(assignRoleDto.getRoleId());	
+			/**
+			 * user.getRole().setRoleId(assignRoleDto.getRoleId());
+			 **/
 			return true;
 		}
 		throw new InvalidUserInput("role not precent");

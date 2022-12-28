@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.te.pcmjwt.appResponse.AppResponse;
+import com.te.pcmjwt.appresponse.AppResponse;
 import com.te.pcmjwt.dto.ExpiryDateDto;
 import com.te.pcmjwt.dto.FetchProductDto;
 import com.te.pcmjwt.dto.UpdateReportDto;
@@ -20,7 +20,7 @@ import com.te.pcmjwt.entity.Categories;
 import com.te.pcmjwt.entity.Options;
 import com.te.pcmjwt.entity.Products;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
-import com.te.pcmjwt.service.serviceInterface.QualityAssuranceServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.QualityAssuranceServiceInterface;
 
 @RestController
 @RequestMapping(path = "/auth/qualityAssurance")
@@ -45,11 +45,11 @@ public class QualityAssuranceController {
 		List<Products> productList = assuranceServiceInterface.getAllProduct();
 		if (productList != null) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("operation successful").build(),
+					AppResponse.builder().error(false).status(200).msg("operation successful").build(),
 					HttpStatus.ACCEPTED);
 		} else {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(false).Status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
+					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 
 		}
 	}
@@ -67,12 +67,12 @@ public class QualityAssuranceController {
 
 	@GetMapping("/getAllCategories")
 	private ResponseEntity<AppResponse> getAllCategories() {
-		List<Categories> AllCategoriesList = assuranceServiceInterface.getAllCategories();
-		if (AllCategoriesList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200)
-					.msg("operation successful").data(Arrays.asList(AllCategoriesList)).build(), HttpStatus.ACCEPTED);
+		List<Categories> allCategoriesList = assuranceServiceInterface.getAllCategories();
+		if (allCategoriesList != null) {
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
+					.msg("operation successful").data(Arrays.asList(allCategoriesList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200).build(),
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}
@@ -82,10 +82,10 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> getAllOptions() {
 		List<Options> AllOptionList = assuranceServiceInterface.getAllOpstions();
 		if (AllOptionList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200)
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
 					.msg("operation successful").data(Arrays.asList(AllOptionList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200).build(),
+			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}
@@ -96,10 +96,10 @@ public class QualityAssuranceController {
 		List<Products> productsList = assuranceServiceInterface.getexpriedProducts(dateDto.getExpiryDate());
 		if (productsList.isEmpty()) {
 			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().error(true).Status(505).msg("DATA NOT AVAILABLE").build(),
+					AppResponse.builder().error(true).status(505).msg("DATA NOT AVAILABLE").build(),
 					HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).Status(200).msg("DATA FOUND")
+		return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).msg("DATA FOUND")
 				.data(Arrays.asList(productsList)).build(), HttpStatus.ACCEPTED);
 
 	}

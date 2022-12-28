@@ -1,4 +1,4 @@
-package com.te.pcmjwt.service.serviceImplemetation;
+package com.te.pcmjwt.service.serviceimplemetation;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.te.pcmjwt.exceptions.DataNotFoundException;
 import com.te.pcmjwt.repository.CategoriesRepository;
 import com.te.pcmjwt.repository.OptionsRepository;
 import com.te.pcmjwt.repository.ProductRepository;
-import com.te.pcmjwt.service.serviceInterface.QualityAssuranceServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.QualityAssuranceServiceInterface;
 
 @Service
 public class QualityAssuranceServiceImplementation implements QualityAssuranceServiceInterface {
@@ -59,7 +59,7 @@ public class QualityAssuranceServiceImplementation implements QualityAssuranceSe
 	public List<Categories> getAllCategories() {
 		List<Categories> tempList = categoriesRepository.findAll();
 		if (tempList.isEmpty()) {
-			throw new DataNotFoundException("data not found");
+			throw new DataNotFoundException("data not Found");
 		}
 		return tempList;
 	}
@@ -69,17 +69,16 @@ public class QualityAssuranceServiceImplementation implements QualityAssuranceSe
 
 		List<Options> tempList = optionsRepository.findAll();
 		if (tempList.isEmpty()) {
-			throw new DataNotFoundException("data not found");
+			throw new DataNotFoundException("data Not found");
 		}
 		return tempList;
 	}
 
 	@Override
 	public List<Products> getexpriedProducts(Date expiryDate) {
-		List<Products> list = productRepository.findAll().stream()
-				.filter((i) -> i.getExpDate().before(expiryDate))
+		return productRepository.findAll().stream().filter(i -> i.getExpDate().before(expiryDate))
 				.collect(Collectors.toList());
-		return list;
+
 	}
 
 }
