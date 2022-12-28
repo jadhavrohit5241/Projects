@@ -1,4 +1,4 @@
-package com.te.pcmjwt.service.serviceImplemetation;
+package com.te.pcmjwt.service.serviceimplemetation;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import com.te.pcmjwt.exceptions.InvalidUserInput;
 import com.te.pcmjwt.repository.CategoriesRepository;
 import com.te.pcmjwt.repository.OptionsRepository;
 import com.te.pcmjwt.repository.ProductRepository;
-import com.te.pcmjwt.service.serviceInterface.WarehouseServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.WarehouseServiceInterface;
 
 @Service
 public class WarehouseServiceImplementation implements WarehouseServiceInterface {

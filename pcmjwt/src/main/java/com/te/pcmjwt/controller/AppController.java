@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.te.pcmjwt.appResponse.AppResponse;
+import com.te.pcmjwt.appresponse.AppResponse;
 import com.te.pcmjwt.dto.AssignRoleDto;
 import com.te.pcmjwt.dto.EmployeeRegisterDto;
 import com.te.pcmjwt.dto.GetAllEmployeeDto;
 import com.te.pcmjwt.dto.JwtDto;
 import com.te.pcmjwt.exceptions.UserNotFoundException;
 import com.te.pcmjwt.jwtutil.JwtUtil;
-import com.te.pcmjwt.security.CustomUserDetailsService;
-import com.te.pcmjwt.service.serviceInterface.ServiceInterface;
+import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,9 +38,6 @@ public class AppController {
 
 	@Autowired
 	private ServiceInterface serviceInterface;
-
-	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -59,8 +55,8 @@ public class AppController {
 			throw new UserNotFoundException("Invalid User ID");
 		}
 		String token = jwtUtil.generateToken(dto.getUsername());
-		return new ResponseEntity<AppResponse>(
-				AppResponse.builder().Status(200).data(Arrays.asList(token)).msg("token created").error(false).build(),
+		return new ResponseEntity<>(
+				AppResponse.builder().status(200).data(Arrays.asList(token)).msg("token created").error(false).build(),
 				HttpStatus.ACCEPTED);
 	}
 
@@ -71,7 +67,7 @@ public class AppController {
 			appResponse.setMsg("successful");
 			appResponse.setStatus(200);
 		}
-		return new ResponseEntity<AppResponse>(appResponse, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(appResponse, HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/getAllEmployee")
@@ -79,7 +75,7 @@ public class AppController {
 	private ResponseEntity<AppResponse> getAllEmployee() {
 		Optional<List<GetAllEmployeeDto>> optional = serviceInterface.getAllEmployee();
 		if (optional.isPresent()) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().Status(200).data(Arrays.asList(optional))
+			return new ResponseEntity<>(AppResponse.builder().status(200).data(Arrays.asList(optional))
 					.error(false).msg("DATA FOUND").build(), HttpStatus.ACCEPTED);
 		} else {
 			throw new RuntimeException("data not found");
@@ -91,11 +87,11 @@ public class AppController {
 	@PreAuthorize("hasRole('ADMIN')")
 	private ResponseEntity<AppResponse> assignRole(@RequestBody AssignRoleDto assignRoleDto) {
 		if (serviceInterface.assignRole(assignRoleDto)) {
-			return new ResponseEntity<AppResponse>(
-					AppResponse.builder().Status(200).error(false).msg("ROLE ASSIGNED SUCCESSFULLY").build(),
+			return new ResponseEntity<>(
+					AppResponse.builder().status(200).error(false).msg("ROLE ASSIGNED SUCCESSFULLY").build(),
 					HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(appResponse, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(appResponse, HttpStatus.ACCEPTED);
 		}
 
 	}

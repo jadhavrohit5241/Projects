@@ -9,5 +9,5 @@ import com.te.pcmjwt.entity.User;
 public interface UserRepository extends JpaRepository<User, String> {
 
 	User findByEmployeeName(String username);
-	//to find user by username 
+	
 }

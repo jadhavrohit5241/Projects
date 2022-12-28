@@ -23,10 +23,12 @@ public class User {
 	private String employeeName;
 	@Column(nullable = false)
 	private String password;
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinTable(name = "map_users_roles", joinColumns = @JoinColumn(name = "user_fk"), inverseJoinColumns = @JoinColumn(name = "role_fk"))
-//	private List<Roles> roles = Lists.newArrayList();
-
+	/**
+	 * @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 * @JoinTable(name = "map_users_roles", joinColumns = @JoinColumn(name =
+	 *                 "user_fk"), inverseJoinColumns = @JoinColumn(name =
+	 *                 "role_fk")) private List<Roles> roles = Lists.newArrayList();
+	 **/
 	@OneToOne(cascade = CascadeType.ALL)
 	private Role role;
 

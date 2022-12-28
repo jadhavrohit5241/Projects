@@ -11,7 +11,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 /**
- * to handle unautherized request
+ * to handle unauthorized request
+ * 
  * @author HP
  *
  */
@@ -22,11 +23,6 @@ public class JwtAuthentivtionEntryPoint implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-  
-		
-		
-		
-		
-	}
+ }
 
 }
