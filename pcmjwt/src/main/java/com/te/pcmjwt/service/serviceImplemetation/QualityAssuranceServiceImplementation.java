@@ -16,7 +16,7 @@ import com.te.pcmjwt.exceptions.DataNotFoundException;
 import com.te.pcmjwt.repository.CategoriesRepository;
 import com.te.pcmjwt.repository.OptionsRepository;
 import com.te.pcmjwt.repository.ProductRepository;
-import com.te.pcmjwt.service.serviceinterface.QualityAssuranceServiceInterface;
+import com.te.pcmjwt.service.QualityAssuranceServiceInterface;
 
 @Service
 public class QualityAssuranceServiceImplementation implements QualityAssuranceServiceInterface {

@@ -25,7 +25,7 @@ import com.te.pcmjwt.dto.GetAllEmployeeDto;
 import com.te.pcmjwt.dto.JwtDto;
 import com.te.pcmjwt.exceptions.UserNotFoundException;
 import com.te.pcmjwt.jwtutil.JwtUtil;
-import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
+import com.te.pcmjwt.service.ServiceInterface;
 
 import lombok.RequiredArgsConstructor;
 

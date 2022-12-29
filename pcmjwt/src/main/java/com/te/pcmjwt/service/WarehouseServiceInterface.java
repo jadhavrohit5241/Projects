@@ -1,4 +1,4 @@
-package com.te.pcmjwt.service.serviceinterface;
+package com.te.pcmjwt.service;
 
 import java.util.List;
 

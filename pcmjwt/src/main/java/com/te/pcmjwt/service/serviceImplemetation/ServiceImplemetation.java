@@ -19,7 +19,7 @@ import com.te.pcmjwt.exceptions.InvalidUserInput;
 import com.te.pcmjwt.repository.EmployeRepository;
 import com.te.pcmjwt.repository.RoleRepository;
 import com.te.pcmjwt.repository.UserRepository;
-import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
+import com.te.pcmjwt.service.ServiceInterface;
 
 @Service
 public class ServiceImplemetation implements ServiceInterface {

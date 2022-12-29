@@ -20,7 +20,7 @@ import com.te.pcmjwt.entity.Categories;
 import com.te.pcmjwt.entity.Options;
 import com.te.pcmjwt.entity.Products;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
-import com.te.pcmjwt.service.serviceinterface.QualityAssuranceServiceInterface;
+import com.te.pcmjwt.service.QualityAssuranceServiceInterface;
 
 @RestController
 @RequestMapping(path = "/auth/qualityAssurance")
@@ -33,7 +33,7 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> updateReport(@RequestBody UpdateReportDto reportDto) {
 		Products products = assuranceServiceInterface.updateReport(reportDto);
 		if (products != null) {
-			return new ResponseEntity<AppResponse>(
+			return new ResponseEntity<>(
 					new AppResponse(false, 200, "data entered successful", Arrays.asList(products)),
 					HttpStatus.ACCEPTED);
 		}
@@ -44,11 +44,11 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> getAllProduct() {
 		List<Products> productList = assuranceServiceInterface.getAllProduct();
 		if (productList != null) {
-			return new ResponseEntity<AppResponse>(
+			return new ResponseEntity<>(
 					AppResponse.builder().error(false).status(200).msg("operation successful").build(),
 					HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(
+			return new ResponseEntity<>(
 					AppResponse.builder().error(false).status(200).msg("product deleted").build(), HttpStatus.ACCEPTED);
 
 		}
@@ -58,7 +58,7 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> getProduct(@RequestBody FetchProductDto fetchDto) {
 		Products productsTemp = assuranceServiceInterface.getProduct(fetchDto);
 		if (productsTemp != null) {
-			return new ResponseEntity<AppResponse>(
+			return new ResponseEntity<>(
 					new AppResponse(false, 200, "data found successful", Arrays.asList(productsTemp)),
 					HttpStatus.ACCEPTED);
 		}
@@ -69,10 +69,10 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> getAllCategories() {
 		List<Categories> allCategoriesList = assuranceServiceInterface.getAllCategories();
 		if (allCategoriesList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
+			return new ResponseEntity<>(AppResponse.builder().error(false).status(200)
 					.msg("operation successful").data(Arrays.asList(allCategoriesList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
+			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}
@@ -80,12 +80,12 @@ public class QualityAssuranceController {
 
 	@GetMapping("/getAllOptions")
 	private ResponseEntity<AppResponse> getAllOptions() {
-		List<Options> AllOptionList = assuranceServiceInterface.getAllOpstions();
-		if (AllOptionList != null) {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200)
-					.msg("operation successful").data(Arrays.asList(AllOptionList)).build(), HttpStatus.ACCEPTED);
+		List<Options> allOptionList = assuranceServiceInterface.getAllOpstions();
+		if (allOptionList != null) {
+			return new ResponseEntity<>(AppResponse.builder().error(false).status(200)
+					.msg("operation successful").data(Arrays.asList(allOptionList)).build(), HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).build(),
+			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).build(),
 					HttpStatus.ACCEPTED);
 
 		}
@@ -95,11 +95,11 @@ public class QualityAssuranceController {
 	private ResponseEntity<AppResponse> expriedProducts(@RequestBody ExpiryDateDto dateDto) {
 		List<Products> productsList = assuranceServiceInterface.getexpriedProducts(dateDto.getExpiryDate());
 		if (productsList.isEmpty()) {
-			return new ResponseEntity<AppResponse>(
+			return new ResponseEntity<>(
 					AppResponse.builder().error(true).status(505).msg("DATA NOT AVAILABLE").build(),
 					HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<AppResponse>(AppResponse.builder().error(false).status(200).msg("DATA FOUND")
+		return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("DATA FOUND")
 				.data(Arrays.asList(productsList)).build(), HttpStatus.ACCEPTED);
 
 	}

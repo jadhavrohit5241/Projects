@@ -22,7 +22,7 @@ import com.te.pcmjwt.entity.Categories;
 import com.te.pcmjwt.entity.Options;
 import com.te.pcmjwt.entity.Products;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
-import com.te.pcmjwt.service.serviceinterface.WarehouseServiceInterface;
+import com.te.pcmjwt.service.WarehouseServiceInterface;
 
 @RestController
 @RequestMapping(path = "/auth/warehouse")
