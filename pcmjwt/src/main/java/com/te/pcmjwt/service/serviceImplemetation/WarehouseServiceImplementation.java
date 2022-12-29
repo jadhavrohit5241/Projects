@@ -18,7 +18,11 @@ import com.te.pcmjwt.exceptions.InvalidUserInput;
 import com.te.pcmjwt.repository.CategoriesRepository;
 import com.te.pcmjwt.repository.OptionsRepository;
 import com.te.pcmjwt.repository.ProductRepository;
+<<<<<<< HEAD
 import com.te.pcmjwt.service.WarehouseServiceInterface;
+=======
+import com.te.pcmjwt.service.serviceinterface.WarehouseServiceInterface;
+>>>>>>> e6387db5ba6721c91b187c2dd7f4a5327ea6ffa4
 
 @Service
 public class WarehouseServiceImplementation implements WarehouseServiceInterface {
