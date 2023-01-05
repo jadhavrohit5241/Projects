@@ -1,50 +1,50 @@
 package com.te.pcmjwt.service.serviceimplemetation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Supplier;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.te.pcmjwt.dto.AssignRoleDto;
 import com.te.pcmjwt.dto.EmployeeRegisterDto;
 import com.te.pcmjwt.dto.GetAllEmployeeDto;
+import com.te.pcmjwt.entity.AppUser;
 import com.te.pcmjwt.entity.Employee;
-import com.te.pcmjwt.entity.Role;
-import com.te.pcmjwt.entity.User;
+import com.te.pcmjwt.entity.Roles;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
+import com.te.pcmjwt.repository.AppUserRepository;
 import com.te.pcmjwt.repository.EmployeRepository;
-import com.te.pcmjwt.repository.RoleRepository;
-import com.te.pcmjwt.repository.UserRepository;
-<<<<<<< HEAD
+import com.te.pcmjwt.repository.RolesRepository;
 import com.te.pcmjwt.service.ServiceInterface;
-=======
-import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
->>>>>>> e6387db5ba6721c91b187c2dd7f4a5327ea6ffa4
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Service
 public class ServiceImplemetation implements ServiceInterface {
 	@Autowired
 	private EmployeRepository employeRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	private AppUserRepository userRepository;
 
 	@Autowired
-	private RoleRepository roleRepository;
+	private RolesRepository roleRepository;
 
 	@Override
 	public boolean register(EmployeeRegisterDto employeeRegisterDto) {
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeRegisterDto, employee);
-		Optional<Role> optional = roleRepository.findByRoleName("USER");
+		Optional<Roles> optional = roleRepository.findByRoleName("ROLE_USER");
 		if (optional.isPresent()) {
-			Role role = optional.get();
-			User newUser = User.builder().employeeName(employee.getEmployeeName()).role(role)
-					.password((new BCryptPasswordEncoder().encode(employeeRegisterDto.getPassword()))).build();
+			Roles roles = optional.get();
+			AppUser newUser = AppUser.builder().username(employee.getEmployeeName())
+					.password(employeeRegisterDto.getPassword()).build();
+			roles.getAppUser().add(newUser);
+			newUser.getRoles().add(roles);
 			userRepository.save(newUser);
 
 			/**
@@ -59,13 +59,13 @@ public class ServiceImplemetation implements ServiceInterface {
 			employeRepository.save(employee);
 			return true;
 		}
-		return false;
+		throw new InvalidUserInput("User Already exist ");
 	}
 
 	@Override
 	public Optional<List<GetAllEmployeeDto>> getAllEmployee() {
 		List<Employee> employees = employeRepository.findAll();
-		List<GetAllEmployeeDto> allEmployeeDtos = new ArrayList<>();
+		List<GetAllEmployeeDto> allEmployeeDtos =Lists.newArrayList();
 		employees.stream()
 				.forEach(i -> allEmployeeDtos.add(GetAllEmployeeDto.builder().departments(i.getDepartment())
 						.designation(i.getDesignation()).email(i.getEmail()).employeeId(i.getEmployeeId())
@@ -73,21 +73,19 @@ public class ServiceImplemetation implements ServiceInterface {
 		return Optional.ofNullable(allEmployeeDtos);
 	}
 
-	@Override
-	public boolean assignRole(AssignRoleDto assignRoleDto) {
-		User user = userRepository.findByEmployeeName(assignRoleDto.getEmployeeName());
-		Optional<Role> optional = roleRepository.findById(assignRoleDto.getRoleId());
-		if (optional.isPresent()) {
-			Role role = optional.get();
-			User newUser = User.builder().employeeName(user.getEmployeeName()).role(role)
-					.password((new BCryptPasswordEncoder().encode(user.getPassword()))).build();
-			userRepository.delete(user);
-			userRepository.save(newUser);
-			/**
-			 * user.getRole().setRoleId(assignRoleDto.getRoleId());
-			 **/
-			return true;
-		}
-		throw new InvalidUserInput("role not precent");
-	}
+//	@Override
+//	public boolean assignRole(AssignRoleDto assignRoleDto) {
+//		Optional<AppUser> user = userRepository.findByUsername(assignRoleDto.getEmployeeName());
+//		Supplier<List<Integer>> supplier = () -> Lists.newArrayList(assignRoleDto.getRoleId());
+//		List<Roles> findAllById = roleRepository.findAllById(supplier.get());
+//		if (findAllById.isEmpty()) {
+//			throw new InvalidUserInput("role not precent");
+//		} else {
+//			AppUser newUser = AppUser.builder().username(user.get().getUsername()).roles(findAllById)
+//					.password((new BCryptPasswordEncoder().encode(user.get().getPassword()))).build();
+//			userRepository.delete(user.get());
+//			userRepository.save(newUser);
+//			return true;
+//		}
+//	}
 }

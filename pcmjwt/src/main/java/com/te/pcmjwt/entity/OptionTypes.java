@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.google.common.collect.Lists;
@@ -31,7 +32,7 @@ public class OptionTypes {
 
 	@OneToMany(targetEntity = Products.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "optionTypeId", referencedColumnName = "optionTypeId")
-	private List<Products> productList=Lists.newArrayList();
+	private List<Products> product;
 
 	@OneToMany(targetEntity = Options.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "optionTypeId", referencedColumnName = "optionTypeId")

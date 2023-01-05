@@ -34,10 +34,6 @@ public class Departments {
 	@JoinColumn(name = "departmentId", referencedColumnName = "departmentId")
 	private List<Categories> categoryList=Lists.newArrayList();
 
-	@OneToMany(targetEntity = User.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "departmentId", referencedColumnName = "departmentId")
-	private List<User> users=Lists.newArrayList();
-
 	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
 	private List<Employee> employees=Lists.newArrayList();
 

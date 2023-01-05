@@ -17,6 +17,7 @@ public class ProductDto {
 	private Integer productId;
 	private String productTitle;
 	private Integer departmentId;
+	private Integer variationTypeId;
 	private Integer categoryId;
 	private Integer optionTypeId;
 	private List<ProductVariations> productVariations;

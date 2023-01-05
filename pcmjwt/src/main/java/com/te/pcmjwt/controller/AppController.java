@@ -7,62 +7,50 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.te.pcmjwt.appresponse.AppResponse;
 import com.te.pcmjwt.dto.AssignRoleDto;
 import com.te.pcmjwt.dto.EmployeeRegisterDto;
 import com.te.pcmjwt.dto.GetAllEmployeeDto;
-import com.te.pcmjwt.dto.JwtDto;
-import com.te.pcmjwt.exceptions.UserNotFoundException;
-import com.te.pcmjwt.jwtutil.JwtUtil;
-<<<<<<< HEAD
 import com.te.pcmjwt.service.ServiceInterface;
-=======
-import com.te.pcmjwt.service.serviceinterface.ServiceInterface;
->>>>>>> e6387db5ba6721c91b187c2dd7f4a5327ea6ffa4
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Controller
-@RequestMapping(path = "/auth/employee")
+@RestController
+@RequestMapping("/auth/employee")
 public class AppController {
 	@Autowired
 	private AppResponse appResponse;
 
-	@Autowired
-	private ServiceInterface serviceInterface;
+	private final ServiceInterface serviceInterface;
 
-	@Autowired
-	private JwtUtil jwtUtil;
+//	@Autowired
+//	private JwtUtil jwtUtil;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@PostMapping("/token")
-	private ResponseEntity<AppResponse> generateToken(@RequestBody JwtDto dto) {
-		try {
-			this.authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
-		} catch (UsernameNotFoundException exception) {
-
-			throw new UserNotFoundException("Invalid User ID");
-		}
-		String token = jwtUtil.generateToken(dto.getUsername());
-		return new ResponseEntity<>(
-				AppResponse.builder().status(200).data(Arrays.asList(token)).msg("token created").error(false).build(),
-				HttpStatus.ACCEPTED);
-	}
+//	@Autowired
+//	private final AuthenticationManager authenticationManager;
+//
+//	@PostMapping("/token")
+//	private ResponseEntity<AppResponse> generateToken(@RequestBody JwtDto dto) {
+//		try {
+//			this.authenticationManager
+//					.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
+//		} catch (UsernameNotFoundException exception) {
+//
+//			throw new UserNotFoundException("Invalid User ID");
+//		}
+//		String token = jwtUtil.generateToken(dto.getUsername());
+//		return new ResponseEntity<>(
+//				AppResponse.builder().status(200).data(Arrays.asList(token)).msg("token created").error(false).build(),
+//				HttpStatus.ACCEPTED);
+//	}
 
 	@PostMapping("/register")
 	public ResponseEntity<AppResponse> register(@RequestBody EmployeeRegisterDto employeeRegisterDto) {
@@ -75,7 +63,6 @@ public class AppController {
 	}
 
 	@GetMapping("/getAllEmployee")
-	@PreAuthorize("hasRole('ADMIN')")
 	private ResponseEntity<AppResponse> getAllEmployee() {
 		Optional<List<GetAllEmployeeDto>> optional = serviceInterface.getAllEmployee();
 		if (optional.isPresent()) {
@@ -87,17 +74,17 @@ public class AppController {
 
 	}
 
-	@PutMapping("/asssignRole")
-	@PreAuthorize("hasRole('ADMIN')")
-	private ResponseEntity<AppResponse> assignRole(@RequestBody AssignRoleDto assignRoleDto) {
-		if (serviceInterface.assignRole(assignRoleDto)) {
-			return new ResponseEntity<>(
-					AppResponse.builder().status(200).error(false).msg("ROLE ASSIGNED SUCCESSFULLY").build(),
-					HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>(appResponse, HttpStatus.ACCEPTED);
-		}
-
-	}
+//	@PutMapping("/asssignRole")
+//	//@PreAuthorize("hasRole('ADMIN')")
+//	private ResponseEntity<AppResponse> assignRole(@RequestBody AssignRoleDto assignRoleDto) {
+//		if (serviceInterface.assignRole(assignRoleDto)) {
+//			return new ResponseEntity<>(
+//					AppResponse.builder().status(200).error(false).msg("ROLE ASSIGNED SUCCESSFULLY").build(),
+//					HttpStatus.ACCEPTED);
+//		} else {
+//			return new ResponseEntity<>(appResponse, HttpStatus.ACCEPTED);
+//		}
+//
+//	}
 
 }

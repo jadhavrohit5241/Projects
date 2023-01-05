@@ -24,7 +24,6 @@ public class GlobalExeptionHandler {
 
 	@ExceptionHandler(DataNotFoundException.class)
 	public ResponseEntity<AppResponse> exceptionHandler(DataNotFoundException dataNotFoundException) {
-
 		return new ResponseEntity<>(AppResponse.builder().error(true)
 				.data(Arrays.asList(dataNotFoundException.getMessage())).status(204).build(), HttpStatus.BAD_REQUEST);
 	}

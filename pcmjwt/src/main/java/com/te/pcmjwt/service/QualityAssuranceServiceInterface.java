@@ -1,8 +1,4 @@
-<<<<<<< HEAD:pcmjwt/src/main/java/com/te/pcmjwt/service/QualityAssuranceServiceInterface.java
 package com.te.pcmjwt.service;
-=======
-package com.te.pcmjwt.service.serviceinterface;
->>>>>>> e6387db5ba6721c91b187c2dd7f4a5327ea6ffa4:pcmjwt/src/main/java/com/te/pcmjwt/service/serviceInterface/QualityAssuranceServiceInterface.java
 
 import java.util.Date;
 import java.util.List;
