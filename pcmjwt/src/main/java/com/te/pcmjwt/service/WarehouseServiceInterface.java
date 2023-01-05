@@ -16,7 +16,7 @@ import com.te.pcmjwt.entity.VariationsTypes;
 
 public interface WarehouseServiceInterface {
 
-	boolean addProduct(Products productDto);
+	boolean addProduct(ProductDto productDto);
 
 	Products getProduct(FetchProductDto productDto);
 

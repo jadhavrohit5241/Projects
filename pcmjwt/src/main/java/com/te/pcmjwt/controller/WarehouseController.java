@@ -21,6 +21,7 @@ import com.te.pcmjwt.dto.FetchCategoryDto;
 import com.te.pcmjwt.dto.FetchOptionDto;
 import com.te.pcmjwt.dto.FetchProductDto;
 import com.te.pcmjwt.dto.OptionDto;
+import com.te.pcmjwt.dto.ProductDto;
 import com.te.pcmjwt.dto.VariationTypeDto;
 import com.te.pcmjwt.entity.Categories;
 import com.te.pcmjwt.entity.Options;
@@ -47,10 +48,9 @@ public class WarehouseController {
 	@PutMapping("/updateVariationType")
 	private ResponseEntity<AppResponse> updateVariationType(@RequestBody VariationTypeDto variationTypeDto) {
 	VariationsTypes variationsTypes=warehouseServiceInterface.updateVariationType(variationTypeDto);
-		if (true) {
-			return new ResponseEntity<>(AppResponse.builder().error(false).msg("UPDATED").data(Arrays.asList(variationsTypes)).build(),HttpStatus.ACCEPTED);
-		}
-		return new ResponseEntity<>(AppResponse.builder().error(true).msg("DATA INSERTION FAILED").build(),HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(
+				AppResponse.builder().error(false).msg("UPDATED").data(Arrays.asList(variationsTypes)).build(),
+				HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/deleteVariationType")
@@ -65,7 +65,7 @@ public class WarehouseController {
 	
 	
 	@PostMapping("/addProduct")
-	private ResponseEntity<AppResponse> addProduct(@RequestBody Products productDto) {
+	private ResponseEntity<AppResponse> addProduct(@RequestBody ProductDto productDto) {
 
 		if (warehouseServiceInterface.addProduct(productDto)) {
 			return new ResponseEntity<>(

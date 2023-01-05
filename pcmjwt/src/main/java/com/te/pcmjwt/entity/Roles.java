@@ -11,8 +11,6 @@ import javax.persistence.ManyToMany;
 
 import org.checkerframework.common.aliasing.qual.Unique;
 
-import com.google.common.collect.Lists;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +31,6 @@ public class Roles {
 	private String roleName;
 
 	@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-	private List<AppUser> appUser = Lists.newArrayList();
+	private List<AppUser> appUser;
 }
 

@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.checkerframework.common.aliasing.qual.Unique;
+
 import com.google.common.collect.Lists;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,11 +24,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Departments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer departmentId;
 	@Column(nullable = false)
+	@Unique
 	private String departmentTitle;
 	@OneToMany(targetEntity = Products.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "departmentId", referencedColumnName = "departmentId")

@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryDto {
 	private Integer categoryId;
+	private String catagoryTitle;
 }

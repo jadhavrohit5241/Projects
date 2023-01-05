@@ -1,14 +1,12 @@
 package com.te.pcmjwt.service.serviceimplemetation;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.te.pcmjwt.dto.CategoryAddDto;
-import com.te.pcmjwt.dto.CategoryDto;
 import com.te.pcmjwt.dto.FetchCategoryDto;
 import com.te.pcmjwt.dto.FetchOptionDto;
 import com.te.pcmjwt.dto.FetchProductDto;
@@ -51,21 +49,19 @@ public class WarehouseServiceImplementation implements WarehouseServiceInterface
 	@Autowired
 	private VariationTypeRepository variationTypeRepository;
 
-	
 	@Override
 	public boolean addCategory(CategoryAddDto categoryDto) {
 		if (categoriesRepository.findById(categoryDto.getCategoryId()).orElse(null) != null) {
 			throw new InvalidUserInput("category is already present");
 		} else {
-			Categories categories = new Categories();
-			BeanUtils.copyProperties(categoryDto, categories);
+			Categories categories = new Categories(categoryDto.getCategoryId(), categoryDto.getCategoryTitle(), null,
+					null, null);
 			Departments departments = departmentRepository.findById(categoryDto.getDepartmentId())
 					.orElseThrow(() -> new InvalidUserInput("INVALID DEPARTMENT ID"));
 			List<Categories> categoryList = departments.getCategoryList();
 			categoryList.add(categories);
 			departments.setCategoryList(categoryList);
-			//departmentRepository.save(departments);
-			categoriesRepository.save(categories);
+			departmentRepository.save(departments);
 			return true;
 		}
 	}
@@ -81,7 +77,6 @@ public class WarehouseServiceImplementation implements WarehouseServiceInterface
 
 	@Override
 	public boolean deleteCategory(FetchCategoryDto fetchCategoryDto) {
-
 		Categories categories = categoriesRepository.findById(fetchCategoryDto.getCategoryId())
 				.orElseThrow(() -> new DataNotFoundException("User Entered inavalid Category Id"));
 		categoriesRepository.deleteById(categories.getCatagoryId());
@@ -118,15 +113,16 @@ public class WarehouseServiceImplementation implements WarehouseServiceInterface
 
 	@Override
 	public boolean addVariationType(VariationTypeDto variationTypeDto) {
-		VariationsTypes variationsTypes=new VariationsTypes();
+		VariationsTypes variationsTypes = new VariationsTypes();
 		BeanUtils.copyProperties(variationTypeDto, variationsTypes);
-		Categories catList = categoriesRepository.findById(variationTypeDto.getCategoryId()).orElseThrow(()->new DataNotFoundException("INVALID CATEGORY_ID"));
+		Categories catList = categoriesRepository.findById(variationTypeDto.getCategoryId())
+				.orElseThrow(() -> new DataNotFoundException("INVALID CATEGORY_ID"));
 		List<VariationsTypes> varTypes = catList.getVariationsTypes();
 		varTypes.add(variationsTypes);
 		try {
 			categoriesRepository.save(catList);
 		} catch (Exception e) {
-		throw new InvalidUserInput("TYPE ALREDY EXIST");
+			throw new InvalidUserInput("TYPE ALREDY EXIST");
 		}
 		return true;
 	}
@@ -143,18 +139,45 @@ public class WarehouseServiceImplementation implements WarehouseServiceInterface
 		}
 
 	}
+
 	@Override
 	public boolean deleteVariationType(Integer id) {
 		optionsRepository.findById(id).orElseThrow(() -> new InvalidUserInput("option id  not found "));
 		return true;
 	}
-	
-	@Override
-	public boolean addProduct(Products productDto) {
-		Products products = new Products();
-		BeanUtils.copyProperties(productDto, products);
 
-		productRepository.save(productDto);
+	@Override
+	public boolean addProduct(ProductDto productDto) {
+
+		/**
+		 * Departments dept =
+		 * departmentRepository.findById(productDto.getDepartmentId()).orElseThrow(() ->
+		 * new DataNotFoundException("INVALID DEPARTMENTID")); Categories categories =
+		 * categoriesRepository.findById(productDto.getCategoryId()).orElseThrow(() ->
+		 * new DataNotFoundException("INVALID CAT_ID")); VariationsTypes variationsTypes
+		 * =
+		 * variationTypeRepository.findById(productDto.getVariationTypeId()).orElseThrow(()
+		 * -> new DataNotFoundException("INVALID VARIATIONTYPE_ID")); OptionTypes
+		 * optionTypes =
+		 * optionsTypeRepository.findById(productDto.getOptionTypeId()).orElseThrow(()
+		 * -> new DataNotFoundException("INVALID OPTION TYPE_ID")); Products products =
+		 * Products.builder().productTitle(productDto.getProductTitle())
+		 * .categories(categories).departments(dept).productVariations(productDto.getProductVariations())
+		 * .optionTypes(optionTypes).variationsTypes(variationsTypes).build();
+		 * productRepository.save(products);
+		 **/
+
+		Products products = new Products();
+		products.setDepartments(departmentRepository.findById(productDto.getDepartmentId())
+				.orElseThrow(() -> new DataNotFoundException("INVALID DEPARTMENTID")));
+		products.setCategories(categoriesRepository.findById(productDto.getCategoryId()).orElseThrow(() ->
+		new DataNotFoundException("INVALID CAT_ID")));
+		products.setOptionTypes(optionsTypeRepository.findById(productDto.getOptionTypeId()).orElseThrow(()
+				 -> new DataNotFoundException("INVALID OPTION TYPE_ID")));
+		products.setVariationsTypes(variationTypeRepository.findById(productDto.getVariationTypeId()).orElseThrow(()
+				 -> new DataNotFoundException("INVALID VARIATIONTYPE_ID")));
+		BeanUtils.copyProperties(productDto, products);
+		productRepository.save(products);
 		return true;
 	}
 
@@ -184,27 +207,4 @@ public class WarehouseServiceImplementation implements WarehouseServiceInterface
 		return tempList;
 	}
 
-
 }
-
-/**
- * Departments departments =
- * departmentRepository.findById(productDto.getDepartmentId()) .orElseThrow(()
- * -> new DataNotFoundException("User Entered inavalid depatmentId"));
- * List<Products> productList = departments.getProductList();
- * productList.add(products); departmentRepository.save(departments); Categories
- * categories = categoriesRepository.findById(productDto.getCategoryId())
- * .orElseThrow(() -> new DataNotFoundException("User Entered inavalid
- * depatmentId")); List<Products> categoriesList = categories.getProducts();
- * categoriesList.add(products); categoriesRepository.save(categories);
- * OptionTypes optiontype =
- * optionsTypeRepository.findById(productDto.getDepartmentId()) .orElseThrow(()
- * -> new DataNotFoundException("User Entered inavalid depatmentId"));
- * List<Products> optiontypeList = optiontype.getProductList();
- * optiontypeList.add(products); optionsTypeRepository.save(optiontype);
- * VariationsTypes vartype =
- * variationTypeRepository.findById(productDto.getDepartmentId())
- * .orElseThrow(() -> new DataNotFoundException("User Entered inavalid
- * depatmentId")); List<Products> vartypeList = vartype.getProducts();
- * vartypeList.add(products); variationTypeRepository.save(vartype);
- **/

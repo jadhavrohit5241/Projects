@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.te.pcmjwt.appresponse.AppResponse;
 import com.te.pcmjwt.dto.AssignRoleDto;
+import com.te.pcmjwt.dto.DeptAddDto;
 import com.te.pcmjwt.dto.EmployeeRegisterDto;
 import com.te.pcmjwt.dto.GetAllEmployeeDto;
+import com.te.pcmjwt.dto.UpdateDeptDto;
 import com.te.pcmjwt.service.ServiceInterface;
 
 import lombok.RequiredArgsConstructor;
@@ -66,13 +70,36 @@ public class AppController {
 	private ResponseEntity<AppResponse> getAllEmployee() {
 		Optional<List<GetAllEmployeeDto>> optional = serviceInterface.getAllEmployee();
 		if (optional.isPresent()) {
-			return new ResponseEntity<>(AppResponse.builder().status(200).data(Arrays.asList(optional))
-					.error(false).msg("DATA FOUND").build(), HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(AppResponse.builder().status(200).data(Arrays.asList(optional)).error(false)
+					.msg("DATA FOUND").build(), HttpStatus.ACCEPTED);
 		} else {
 			throw new RuntimeException("data not found");
 		}
 
 	}
+
+	@PostMapping("/addDept")
+	private ResponseEntity<AppResponse> addDepartment(@RequestBody DeptAddDto addDept) {
+		return new ResponseEntity<>(
+				AppResponse.builder().error(false).data(Arrays.asList(serviceInterface.addDept(addDept))).status(200)
+						.msg("DATA UPDATED SUCCESFULLY").build(),
+				HttpStatus.CREATED);
+	}
+
+	@PutMapping("/updateDept")
+	private ResponseEntity<AppResponse> updateDepartment(@RequestBody UpdateDeptDto addDept) {
+		serviceInterface.addUpdate(addDept);
+		return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("DEPARTMENT UPDATED").build(),
+				HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/deleteDept/{deptName}")
+	private ResponseEntity<AppResponse> deleteDept(@PathVariable String deptName) {
+		serviceInterface.deleteDept(deptName);
+		return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("DEPARTMENT DELETED SUCESSFULLY").build(),
+				HttpStatus.CREATED);
+	}
+
 
 //	@PutMapping("/asssignRole")
 //	//@PreAuthorize("hasRole('ADMIN')")

@@ -1,16 +1,17 @@
 package com.te.pcmjwt.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-public class VariationTypeDto {
-	private Integer variationTypeId;
-	private String variationTypeTitle;
-	private Integer categoryId;
+@Builder
+public class UpdateDeptDto {
+	private String deptName;
+	private String upadeteDeptName;
 }
