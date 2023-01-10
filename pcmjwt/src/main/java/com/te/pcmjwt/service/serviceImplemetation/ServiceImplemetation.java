@@ -2,15 +2,12 @@ package com.te.pcmjwt.service.serviceimplemetation;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
-import org.apache.logging.log4j.util.Supplier;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.te.pcmjwt.dto.AssignRoleDto;
 import com.te.pcmjwt.dto.DeptAddDto;
 import com.te.pcmjwt.dto.EmployeeRegisterDto;
 import com.te.pcmjwt.dto.GetAllEmployeeDto;
@@ -19,12 +16,14 @@ import com.te.pcmjwt.entity.AppUser;
 import com.te.pcmjwt.entity.Departments;
 import com.te.pcmjwt.entity.Employee;
 import com.te.pcmjwt.entity.Roles;
+import com.te.pcmjwt.entity.UserTokenData;
 import com.te.pcmjwt.exceptions.DataNotFoundException;
 import com.te.pcmjwt.exceptions.InvalidUserInput;
 import com.te.pcmjwt.repository.AppUserRepository;
 import com.te.pcmjwt.repository.DepartmentRepository;
 import com.te.pcmjwt.repository.EmployeRepository;
 import com.te.pcmjwt.repository.RolesRepository;
+import com.te.pcmjwt.repository.UserTokenRepository;
 import com.te.pcmjwt.service.ServiceInterface;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +42,9 @@ public class ServiceImplemetation implements ServiceInterface {
 
 	@Autowired
 	private DepartmentRepository departmentRepository;
+
+	@Autowired
+	private UserTokenRepository tokenRepository;
 
 	@Override
 	public boolean register(EmployeeRegisterDto employeeRegisterDto) {
@@ -65,7 +67,7 @@ public class ServiceImplemetation implements ServiceInterface {
 			 * department.getEmployees().add(employee);
 			 * departmentRepository.save(department);
 			 **/
-
+			
 			employeRepository.save(employee);
 			return true;
 		}
@@ -108,19 +110,15 @@ public class ServiceImplemetation implements ServiceInterface {
 		return true;
 	}
 
-//	@Override
-//	public boolean assignRole(AssignRoleDto assignRoleDto) {
-//		Optional<AppUser> user = userRepository.findByUsername(assignRoleDto.getEmployeeName());
-//		Supplier<List<Integer>> supplier = () -> Lists.newArrayList(assignRoleDto.getRoleId());
-//		List<Roles> findAllById = roleRepository.findAllById(supplier.get());
-//		if (findAllById.isEmpty()) {
-//			throw new InvalidUserInput("role not precent");
-//		} else {
-//			AppUser newUser = AppUser.builder().username(user.get().getUsername()).roles(findAllById)
-//					.password((new BCryptPasswordEncoder().encode(user.get().getPassword()))).build();
-//			userRepository.delete(user.get());
-//			userRepository.save(newUser);
-//			return true;
-//		}
-//	}
+	@Override
+	public void saveTokenInDatabase(String username, String token) {
+		tokenRepository.save(new UserTokenData(username, token));
+	}
+
+	@Override
+	public String getTokenFromDb(String username) {
+		return tokenRepository.findById(username).orElseThrow(() -> new DataNotFoundException("DEPARTMENT NOT PRESENT"))
+				.getToken();
+	}
+
 }

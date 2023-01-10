@@ -10,6 +10,9 @@ import com.google.common.collect.Lists;
 import com.te.pcmjwt.entity.Roles;
 import com.te.pcmjwt.repository.RolesRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @SpringBootApplication
 public class PcmApplication {
 	@Autowired
@@ -23,14 +26,13 @@ public class PcmApplication {
 	public CommandLineRunner runner() {
 		return args -> {
 
-			Roles userRole = Roles.builder().roleName("ROLE_DEFAULTUSERS").build();
+			Roles userRole = Roles.builder().roleName("ROLE_USER").build();
 
 			Roles adminRole = Roles.builder().roleName("ROLE_ADMIN").appUser(Lists.newArrayList()).build();
 
-			if (roleRepository.findByRoleName("ROLE_DEFAULTUSERS").isEmpty()
+			if (roleRepository.findByRoleName("ROLE_USER").isEmpty()
 					&& roleRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
 				roleRepository.save(userRole);
-
 				roleRepository.save(adminRole);
 			}
 		};

@@ -3,6 +3,8 @@ package com.te.pcmjwt.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class WarehouseController {
 	private WarehouseServiceInterface warehouseServiceInterface;
 
 	@PostMapping("/addVariationType")
-	private ResponseEntity<AppResponse> addVariationType(@RequestBody VariationTypeDto variationTypeDto) {
+	private ResponseEntity<AppResponse> addVariationType(@Valid @RequestBody VariationTypeDto variationTypeDto) {
 
 		if (warehouseServiceInterface.addVariationType(variationTypeDto)) {
 			return new ResponseEntity<>(AppResponse.builder().error(false).msg("DATA ADDED SUCCESSFULLY").build(),HttpStatus.ACCEPTED);
@@ -46,7 +48,7 @@ public class WarehouseController {
 	}
 	
 	@PutMapping("/updateVariationType")
-	private ResponseEntity<AppResponse> updateVariationType(@RequestBody VariationTypeDto variationTypeDto) {
+	private ResponseEntity<AppResponse> updateVariationType(@Valid@RequestBody VariationTypeDto variationTypeDto) {
 	VariationsTypes variationsTypes=warehouseServiceInterface.updateVariationType(variationTypeDto);
 		return new ResponseEntity<>(
 				AppResponse.builder().error(false).msg("UPDATED").data(Arrays.asList(variationsTypes)).build(),
@@ -54,7 +56,7 @@ public class WarehouseController {
 	}
 	
 	@DeleteMapping("/deleteVariationType")
-	private ResponseEntity<AppResponse> deleteVariationType(@RequestParam Integer id) {
+	private ResponseEntity<AppResponse> deleteVariationType(@Valid@RequestParam Integer id) {
 
 		if (warehouseServiceInterface.deleteVariationType(id)) {
 			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("variationType deleted").build(),
@@ -65,7 +67,7 @@ public class WarehouseController {
 	
 	
 	@PostMapping("/addProduct")
-	private ResponseEntity<AppResponse> addProduct(@RequestBody ProductDto productDto) {
+	private ResponseEntity<AppResponse> addProduct(@Valid@RequestBody ProductDto productDto) {
 
 		if (warehouseServiceInterface.addProduct(productDto)) {
 			return new ResponseEntity<>(
@@ -89,7 +91,7 @@ public class WarehouseController {
 	}
 
 	@PostMapping("/getProduct")
-	private ResponseEntity<AppResponse> getProduct(@RequestBody FetchProductDto fetchDto) {
+	private ResponseEntity<AppResponse> getProduct(@Valid@RequestBody FetchProductDto fetchDto) {
 		Products productsTemp = warehouseServiceInterface.getProduct(fetchDto);
 		if (productsTemp != null) {
 			return new ResponseEntity<>(
@@ -100,7 +102,7 @@ public class WarehouseController {
 	}
 
 	@DeleteMapping("/deleteProduct")
-	private ResponseEntity<AppResponse> deleteProduct(@RequestBody FetchProductDto fetchDto) {
+	private ResponseEntity<AppResponse> deleteProduct(@Valid@RequestBody FetchProductDto fetchDto) {
 
 		if (warehouseServiceInterface.deleteProduct(fetchDto)) {
 			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("product deleted").build(),
@@ -110,7 +112,7 @@ public class WarehouseController {
 	}
 
 	@DeleteMapping("/deleteCategory")
-	private ResponseEntity<AppResponse> deleteCategory(@RequestBody FetchCategoryDto fetchCategoryDto) {
+	private ResponseEntity<AppResponse> deleteCategory(@Valid@RequestBody FetchCategoryDto fetchCategoryDto) {
 
 		if (warehouseServiceInterface.deleteCategory(fetchCategoryDto)) {
 			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("Category deleted").build(),
@@ -120,7 +122,7 @@ public class WarehouseController {
 	}
 
 	@PostMapping("/addCategory")
-	private ResponseEntity<AppResponse> addProduct(@RequestBody CategoryAddDto categories) {
+	private ResponseEntity<AppResponse> addProduct(@Valid @RequestBody CategoryAddDto categories) {
 
 		if (warehouseServiceInterface.addCategory(categories)) {
 			return new ResponseEntity<>(
@@ -143,7 +145,7 @@ public class WarehouseController {
 	}
 
 	@DeleteMapping("/deleteOption")
-	private ResponseEntity<AppResponse> deleteOption(@RequestBody FetchOptionDto fetchOptionDto) {
+	private ResponseEntity<AppResponse> deleteOption(@Valid@RequestBody FetchOptionDto fetchOptionDto) {
 
 		if (warehouseServiceInterface.deleteOption(fetchOptionDto)) {
 			return new ResponseEntity<>(AppResponse.builder().error(false).status(200).msg("Option is deleted").build(),
@@ -153,7 +155,7 @@ public class WarehouseController {
 	}
 
 	@PostMapping("/addOption")
-	private ResponseEntity<AppResponse> addProduct(@RequestBody OptionDto option) {
+	private ResponseEntity<AppResponse> addProduct(@Valid@RequestBody OptionDto option) {
 
 		if (warehouseServiceInterface.addOption(option)) {
 			return new ResponseEntity<>(new AppResponse(false, 200, "data entered successful", Arrays.asList(option)),

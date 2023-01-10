@@ -21,6 +21,10 @@ public interface ServiceInterface {
 
 	boolean  deleteDept(String deptName);
 
+	void saveTokenInDatabase(String username, String token);
+
+	String getTokenFromDb(String username);
+
 	//boolean assignRole(AssignRoleDto assignRoleDto);
 
 }
