@@ -1,0 +1,29 @@
+server:
+  port: 9003
+  
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+      - id: USER-SERVICE
+        uri: lb://USER-SERVICE
+        predicates:
+          - Path=/user/**
+
+      - id: DRIVER-SERVICE
+        uri: lb://DRIVER-SERVICE
+        predicates:
+          - Path=/driver/**  
+              
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      
+  instance:
+    prefer-ip-address: true  
+    

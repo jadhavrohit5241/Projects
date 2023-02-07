@@ -1,0 +1,64 @@
+server:
+  port: 9001
+  
+  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      
+  instance:
+    prefer-ip-address: true
+    
+    
+    
+spring:
+  application:
+    name: USER-SERVICE
+    
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+    
+    
+    
+
+##acutaor config  
+management:  
+  health:
+    circuitbreakers:
+      enabled: true
+  
+  endpoints:
+    web:
+      exposure:
+        include: health
+    
+  endpoint:
+    health:
+      show-details: always
+
+#resilieanc4j config
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      driverService:
+        register-health-indicator: true                               # tells u health of service 
+        event-consumer-buffer-size: 10                                # event we are consume
+        failure-rate-threshold: 50                                    # 50% failure rate
+        minimum-number-of-calls: 5                                    # minimun no of call check
+        automatic-transition-from-open-to-half-open-enabled: true     # automatic trasition of circute from open to half open
+        wait-duration-in-open-state: 5s                               # state shpuld open for 5 sec
+        permitted-number-of-calls-in-half-open-state: 3               # 3 call allowd in half open state
+        sliding-window-size: 10                                       #
+        sliding-window-type: COUNT_BASED                              # count based
+        
+
+  
+#  
+#  retry:
+#    instances:
+#      driverService:
+#        wait-duration: 10s
