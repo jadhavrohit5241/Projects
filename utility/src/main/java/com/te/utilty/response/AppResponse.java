@@ -1,7 +1,5 @@
 package com.te.utilty.response;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -23,5 +21,5 @@ public class AppResponse {
 	private int status;
 	private String timestamp;
 	private String msg;
-	private List<Object> data;
+	private Object data;
 }
