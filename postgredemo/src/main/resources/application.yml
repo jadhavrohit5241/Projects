@@ -1,0 +1,10 @@
+logging:
+  file:
+    name: D:/WORKSPACE_SB/postgredemo/elklog.log
+  level:
+    root: INFO
+    '[com.te]': TRACE
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} -%c - %M - %m - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %c - %M - %m - %n"
+    
